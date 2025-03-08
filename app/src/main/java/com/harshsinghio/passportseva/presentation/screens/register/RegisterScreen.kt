@@ -98,28 +98,6 @@ fun RegisterScreen(
                     }
                 }
             )
-        },
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = false,
-                    onClick = { /* Navigate to home */ },
-                    icon = { Icon(Icons.Default.ArrowBack, contentDescription = "Home") },
-                    label = { Text("Home") }
-                )
-                NavigationBarItem(
-                    selected = false,
-                    onClick = { /* Navigate to services */ },
-                    icon = { Icon(Icons.Default.ArrowBack, contentDescription = "Services") },
-                    label = { Text("Services") }
-                )
-                NavigationBarItem(
-                    selected = true,
-                    onClick = { /* Navigate to profile */ },
-                    icon = { Icon(Icons.Default.ArrowBack, contentDescription = "Profile") },
-                    label = { Text("Profile") }
-                )
-            }
         }
     ) { paddingValues ->
         Column(

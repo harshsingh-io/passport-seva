@@ -19,6 +19,11 @@ sealed class Screen(val route: String) {
     object FeeCalculator : Screen("fee_calculator")
     object LocateCentre : Screen("locate_centre")
 
+    // New screens for services
+    object Annexures : Screen("annexures")
+    object Grievance : Screen("grievance")
+    object FAQ : Screen("faq")
+
     /**
      * Utility to create route with arguments
      *
@@ -56,6 +61,9 @@ sealed class Screen(val route: String) {
                 DocumentAdvisor.route -> DocumentAdvisor
                 FeeCalculator.route -> FeeCalculator
                 LocateCentre.route -> LocateCentre
+                Annexures.route -> Annexures
+                Grievance.route -> Grievance
+                FAQ.route -> FAQ
                 else -> Home // Default to Home screen
             }
         }

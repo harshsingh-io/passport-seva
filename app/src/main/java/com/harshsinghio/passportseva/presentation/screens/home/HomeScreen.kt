@@ -8,19 +8,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.harshsinghio.passportseva.domain.model.QuickAction
 import com.harshsinghio.passportseva.domain.model.Service
 import com.harshsinghio.passportseva.presentation.common.components.PassportSevaAppBar
+import com.harshsinghio.passportseva.presentation.common.components.PassportSevaBottomNavBar
 import com.harshsinghio.passportseva.presentation.common.components.SearchBar
 import com.harshsinghio.passportseva.presentation.screens.home.components.QuickActionsSection
 import com.harshsinghio.passportseva.presentation.screens.home.components.ServicesSection
@@ -82,47 +74,18 @@ fun HomeScreen(
             )
         },
         bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = activeTab == "home",
-                    onClick = { viewModel.setActiveTab("home") },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "Home"
-                        )
-                    },
-                    label = { Text("Home") }
-                )
-                NavigationBarItem(
-                    selected = activeTab == "services",
-                    onClick = {
-                        viewModel.setActiveTab("services")
-                        onNavigateToServices()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Description,
-                            contentDescription = "Services"
-                        )
-                    },
-                    label = { Text("Services") }
-                )
-                NavigationBarItem(
-                    selected = activeTab == "profile",
-                    onClick = {
-                        viewModel.setActiveTab("profile")
-                        onNavigateToProfile()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Profile"
-                        )
-                    },
-                    label = { Text("Profile") }
-                )
-            }
+            PassportSevaBottomNavBar(
+                currentRoute = "home",
+                onHomeClick = { viewModel.setActiveTab("home") },
+                onServicesClick = {
+                    viewModel.setActiveTab("services")
+                    onNavigateToServices()
+                },
+                onProfileClick = {
+                    viewModel.setActiveTab("profile")
+                    onNavigateToProfile()
+                }
+            )
         }
     ) { paddingValues ->
         Column(
