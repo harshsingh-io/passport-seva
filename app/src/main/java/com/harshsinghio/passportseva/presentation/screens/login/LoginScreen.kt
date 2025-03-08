@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.harshsinghio.passportseva.presentation.common.components.TitleAppBar
 import com.harshsinghio.passportseva.presentation.screens.login.components.LoginForm
-import com.harshsinghio.passportseva.presentation.screens.login.components.RegisterForm
 import com.harshsinghio.passportseva.presentation.screens.login.components.SocialLoginButtons
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,7 +17,6 @@ fun LoginScreen(
     onNavigateBack: () -> Unit,
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    initialTab: String = "login",
     viewModel: LoginViewModel = viewModel()
 ) {
     val loginState by viewModel.loginState
@@ -55,59 +53,28 @@ fun LoginScreen(
                     // Welcome Text
                     WelcomeSection()
 
-                    // Tab for Login/Register
-                    var selectedTab by remember { mutableStateOf(initialTab) }
-                    TabRow(
-                        selectedTabIndex = if (selectedTab == "login") 0 else 1
+                    LoginForm(
+                        email = uiState.email,
+                        password = uiState.password,
+                        showPassword = uiState.showPassword,
+                        isLoading = loginState.isLoading,
+                        onEmailChange = viewModel::updateEmail,
+                        onPasswordChange = viewModel::updatePassword,
+                        onTogglePasswordVisibility = viewModel::togglePasswordVisibility,
+                        onForgotPasswordClick = { /* Handle forgot password */ },
+                        onSubmit = {
+                            viewModel.login {
+                                onLoginSuccess()
+                            }
+                        }
+                    )
+
+                    // Register Button
+                    TextButton(
+                        onClick = onNavigateToRegister,
+                        modifier = Modifier.padding(top = 8.dp)
                     ) {
-                        Tab(
-                            selected = selectedTab == "login",
-                            onClick = { selectedTab = "login" },
-                            text = { Text("Login") }
-                        )
-                        Tab(
-                            selected = selectedTab == "register",
-                            onClick = { selectedTab = "register" },
-                            text = { Text("Register") }
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    when (selectedTab) {
-                        "login" -> LoginForm(
-                            email = uiState.email,
-                            password = uiState.password,
-                            showPassword = uiState.showPassword,
-                            isLoading = loginState.isLoading,
-                            onEmailChange = viewModel::updateEmail,
-                            onPasswordChange = viewModel::updatePassword,
-                            onTogglePasswordVisibility = viewModel::togglePasswordVisibility,
-                            onForgotPasswordClick = { /* Handle forgot password */ },
-                            onSubmit = {
-                                viewModel.login {
-                                    onLoginSuccess()
-                                }
-                            }
-                        )
-                        "register" -> RegisterForm(
-                            name = uiState.name,
-                            email = uiState.email,
-                            mobile = uiState.mobile,
-                            password = uiState.password,
-                            showPassword = uiState.showPassword,
-                            isLoading = loginState.isLoading,
-                            onNameChange = viewModel::updateName,
-                            onEmailChange = viewModel::updateEmail,
-                            onMobileChange = viewModel::updateMobile,
-                            onPasswordChange = viewModel::updatePassword,
-                            onTogglePasswordVisibility = viewModel::togglePasswordVisibility,
-                            onSubmit = {
-                                viewModel.register {
-                                    onNavigateToRegister()
-                                }
-                            }
-                        )
+                        Text("Don't have an account? Register now")
                     }
 
                     Divider(

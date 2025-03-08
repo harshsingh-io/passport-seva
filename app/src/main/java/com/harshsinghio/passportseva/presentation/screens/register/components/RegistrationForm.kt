@@ -18,6 +18,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.harshsinghio.passportseva.presentation.screens.register.RegisterUiState
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +46,50 @@ fun RegistrationForm(
     var showPassword by remember { mutableStateOf(false) }
     var showConfirmPassword by remember { mutableStateOf(false) }
     var showHintAnswer by remember { mutableStateOf(false) }
+    var showDatePicker by remember { mutableStateOf(false) }
+
+    // Password validation states
+    val hasMinLength = uiState.password.length >= 8
+    val hasMaxLength = uiState.password.length <= 20
+    val hasUpperCase = uiState.password.any { it.isUpperCase() }
+    val hasLowerCase = uiState.password.any { it.isLowerCase() }
+    val hasDigit = uiState.password.any { it.isDigit() }
+    val hasSpecialChar = uiState.password.any { !it.isLetterOrDigit() }
+    val passwordsMatch = uiState.password == uiState.confirmPassword && uiState.confirmPassword.isNotEmpty()
+
+    // Date picker dialog
+    if (showDatePicker) {
+        val datePickerState = rememberDatePickerState(
+            selectableDates = object : SelectableDates {
+                override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                    return utcTimeMillis <= System.currentTimeMillis()
+                }
+            }
+        )
+
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val date = Date(millis)
+                        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        onDateOfBirthChange(format.format(date))
+                    }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -97,7 +144,7 @@ fun RegistrationForm(
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Date of Birth (DD/MM/YYYY)") },
             trailingIcon = {
-                IconButton(onClick = { /* Open date picker */ }) {
+                IconButton(onClick = { showDatePicker = true }) {
                     Icon(
                         imageVector = Icons.Default.CalendarToday,
                         contentDescription = "Select date"
@@ -220,7 +267,33 @@ fun RegistrationForm(
                     )
                 }
             },
-            singleLine = true
+            singleLine = true,
+            supportingText = {
+                if (uiState.password.isNotEmpty()) {
+                    Column {
+                        PasswordRequirementRow(
+                            text = "8-20 characters",
+                            satisfied = hasMinLength && hasMaxLength
+                        )
+                        PasswordRequirementRow(
+                            text = "Uppercase letter",
+                            satisfied = hasUpperCase
+                        )
+                        PasswordRequirementRow(
+                            text = "Lowercase letter",
+                            satisfied = hasLowerCase
+                        )
+                        PasswordRequirementRow(
+                            text = "Number",
+                            satisfied = hasDigit
+                        )
+                        PasswordRequirementRow(
+                            text = "Special character",
+                            satisfied = hasSpecialChar
+                        )
+                    }
+                }
+            }
         )
 
         // "Password Policy" link
@@ -253,7 +326,15 @@ fun RegistrationForm(
                     )
                 }
             },
-            singleLine = true
+            singleLine = true,
+            supportingText = {
+                if (uiState.confirmPassword.isNotEmpty()) {
+                    PasswordRequirementRow(
+                        text = "Passwords match",
+                        satisfied = passwordsMatch
+                    )
+                }
+            }
         )
 
         // Hint Question
@@ -354,6 +435,31 @@ fun RegistrationForm(
                 Text("CLEAR")
             }
         }
+    }
+}
+
+@Composable
+fun PasswordRequirementRow(
+    text: String,
+    satisfied: Boolean
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = Modifier.padding(vertical = 2.dp)
+    ) {
+        Icon(
+            imageVector = if (satisfied) Icons.Default.Check else Icons.Default.Clear,
+            contentDescription = if (satisfied) "Requirement satisfied" else "Requirement not satisfied",
+            tint = if (satisfied) Color.Green else Color.Gray,
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = text,
+            color = if (satisfied) Color.Green else Color.Gray,
+            style = MaterialTheme.typography.bodySmall
+        )
     }
 }
 
