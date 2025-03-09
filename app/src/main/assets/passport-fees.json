@@ -1,0 +1,157 @@
+{
+  "passport": {
+    "fresh": {
+      "less_than_15_years": {
+        "normal": 1000.00,
+        "tatkaal": 3000.00
+      },
+      "between_15_18_years": {
+        "normal": {
+          "36_pages": 1500.00
+        },
+        "tatkaal": {
+          "36_pages": 3500.00
+        }
+      },
+      "18_years_and_above": {
+        "normal": {
+          "36_pages": 1500.00,
+          "60_pages": 2000.00
+        },
+        "tatkaal": {
+          "36_pages": 3500.00,
+          "60_pages": 4000.00
+        }
+      }
+    },
+    "reissue": {
+      "less_than_15_years": {
+        "validity_expired": {
+          "normal": 1000.00,
+          "tatkaal": 3000.00
+        },
+        "delete_ecr_change_particulars": {
+          "normal": 1000.00,
+          "tatkaal": 3000.00
+        },
+        "exhaustion_of_pages": {
+          "normal": 1000.00,
+          "tatkaal": 3000.00
+        },
+        "lost_damaged": {
+          "expired_yes": {
+            "normal": 1000.00,
+            "tatkaal": 3000.00
+          },
+          "expired_no": {
+            "normal": 3000.00,
+            "tatkaal": 5000.00
+          }
+        }
+      },
+      "between_15_18_years": {
+        "validity_expired": {
+          "normal": {
+            "36_pages": 1500.00,
+            "60_pages": 2000.00
+          },
+          "tatkaal": {
+            "36_pages": 3500.00,
+            "60_pages": 4000.00
+          }
+        },
+        "delete_ecr_change_particulars": {
+          "normal": {
+            "36_pages": 1500.00,
+            "60_pages": 2000.00
+          },
+          "tatkaal": {
+            "36_pages": 3500.00,
+            "60_pages": 4000.00
+          }
+        },
+        "exhaustion_of_pages": {
+          "normal": {
+            "36_pages": 1500.00,
+            "60_pages": 2000.00
+          },
+          "tatkaal": {
+            "36_pages": 3500.00,
+            "60_pages": 4000.00
+          }
+        }
+      },
+      "18_years_and_above": {
+        "validity_expired": {
+          "normal": {
+            "36_pages": 1500.00,
+            "60_pages": 2000.00
+          },
+          "tatkaal": {
+            "36_pages": 3500.00,
+            "60_pages": 4000.00
+          }
+        },
+        "delete_ecr_change_particulars": {
+          "normal": {
+            "36_pages": 1500.00,
+            "60_pages": 2000.00
+          },
+          "tatkaal": {
+            "36_pages": 3500.00,
+            "60_pages": 4000.00
+          }
+        },
+        "exhaustion_of_pages": {
+          "normal": {
+            "36_pages": 1500.00,
+            "60_pages": 2000.00
+          },
+          "tatkaal": {
+            "36_pages": 3500.00,
+            "60_pages": 4000.00
+          }
+        },
+        "lost_damaged": {
+          "expired_yes": {
+            "normal": {
+              "36_pages": 1500.00,
+              "60_pages": 2000.00
+            },
+            "tatkaal": {
+              "36_pages": 3500.00,
+              "60_pages": 4000.00
+            }
+          },
+          "expired_no": {
+            "normal": {
+              "36_pages": 3000.00,
+              "60_pages": 3500.00
+            },
+            "tatkaal": {
+              "36_pages": 5000.00,
+              "60_pages": 5500.00
+            }
+          }
+        }
+      }
+    }
+  },
+  "pcc": {
+    "fee": 500.00
+  },
+  "identity_certificate": {
+    "fresh": {
+      "fee": 1000.00
+    },
+    "reissue": {
+      "fee": 1000.00
+    }
+  },
+  "surrender_certificate": {
+    "fee": 500.00
+  },
+  "background_verification_gep": {
+    "fee": 500.00
+  }
+}

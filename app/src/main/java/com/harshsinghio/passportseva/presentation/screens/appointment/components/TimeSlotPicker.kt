@@ -4,9 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
@@ -51,18 +48,33 @@ fun TimeSlotPicker(
             )
         }
 
-        // Time slots grid
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        // Time slots grid using fixed rows
+        Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(timeSlots) { timeSlot ->
-                TimeSlotItem(
-                    timeSlot = timeSlot,
-                    isSelected = selectedTimeSlot?.id == timeSlot.id,
-                    onTimeSlotSelected = onTimeSlotSelected
-                )
+            // Group time slots into rows of 3
+            for (row in timeSlots.chunked(3)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    for (timeSlot in row) {
+                        TimeSlotItem(
+                            timeSlot = timeSlot,
+                            isSelected = selectedTimeSlot?.id == timeSlot.id,
+                            onTimeSlotSelected = onTimeSlotSelected,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
+                    // Fill any empty slots in the last row
+                    val emptySlots = 3 - row.size
+                    if (emptySlots > 0) {
+                        for (i in 0 until emptySlots) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
             }
         }
     }
@@ -72,13 +84,13 @@ fun TimeSlotPicker(
 fun TimeSlotItem(
     timeSlot: TimeSlot,
     isSelected: Boolean,
-    onTimeSlotSelected: (TimeSlot) -> Unit
+    onTimeSlotSelected: (TimeSlot) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val shape = MaterialTheme.shapes.small
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .height(48.dp)
             .clip(shape)
             .background(

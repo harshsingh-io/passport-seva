@@ -4,9 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.*
@@ -42,7 +39,7 @@ fun DatePicker(
                 style = MaterialTheme.typography.titleMedium
             )
 
-            // Month selector (could be implemented for a real app)
+            // Month selector
             IconButton(onClick = { /* Show month selector */ }) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
@@ -51,18 +48,33 @@ fun DatePicker(
             }
         }
 
-        // Date grid
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(7),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        // Date grid using fixed Grid with Rows and Columns
+        Column(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(dates) { dateItem ->
-                DateItem(
-                    dateItem = dateItem,
-                    isSelected = selectedDate == dateItem.date,
-                    onDateSelected = onDateSelected
-                )
+            // Split dates into rows of 7 (for 7 days per week)
+            for (week in dates.chunked(7)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    for (dateItem in week) {
+                        DateItem(
+                            dateItem = dateItem,
+                            isSelected = selectedDate == dateItem.date,
+                            onDateSelected = onDateSelected,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
+                    // Fill any empty slots in the last row
+                    val emptySlots = 7 - week.size
+                    if (emptySlots > 0) {
+                        for (i in 0 until emptySlots) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
             }
         }
 
@@ -85,12 +97,13 @@ fun DatePicker(
 fun DateItem(
     dateItem: AvailableDateItem,
     isSelected: Boolean,
-    onDateSelected: (String) -> Unit
+    onDateSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val shape = MaterialTheme.shapes.small
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .aspectRatio(1f)
             .clip(shape)
             .background(
