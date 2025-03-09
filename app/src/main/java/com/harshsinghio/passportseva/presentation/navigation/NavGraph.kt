@@ -6,11 +6,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.harshsinghio.passportseva.presentation.screens.appointment.AppointmentScreen
+import com.harshsinghio.passportseva.presentation.screens.appointmentdetails.AppointmentDetailsScreen
 import com.harshsinghio.passportseva.presentation.screens.home.HomeScreen
 import com.harshsinghio.passportseva.presentation.screens.login.LoginScreen
 import com.harshsinghio.passportseva.presentation.screens.profile.ProfileScreen
@@ -72,9 +77,11 @@ fun PassportSevaNavGraph(
                 onAppointmentBooked = {
                     // Pop back to home after booking
                     navController.popBackStack(Screen.Home.route, false)
-                }
+                },
+                navController = navController  // Add this parameter
             )
         }
+
 
         // Status screen
         composable(Screen.Status.route) {
@@ -135,16 +142,6 @@ fun PassportSevaNavGraph(
             )
         }
 
-        // Appointment screen
-        composable(Screen.Appointment.route) {
-            AppointmentScreen(
-                onNavigateBack = { navController.popBackStack() },
-                onAppointmentBooked = {
-                    // Pop back to home after booking
-                    navController.popBackStack(Screen.Home.route, false)
-                }
-            )
-        }
 
         // Status screen
         composable(Screen.Status.route) {
@@ -195,6 +192,11 @@ fun PassportSevaNavGraph(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+        }
+        composable(route = Screen.AppointmentDetails.route) {
+            AppointmentDetailsScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

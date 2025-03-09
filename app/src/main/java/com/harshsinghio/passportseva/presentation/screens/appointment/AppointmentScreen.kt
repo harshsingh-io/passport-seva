@@ -8,7 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.harshsinghio.passportseva.presentation.common.components.TitleAppBar
+import com.harshsinghio.passportseva.presentation.navigation.Screen
 import com.harshsinghio.passportseva.presentation.screens.appointment.components.DatePicker
 import com.harshsinghio.passportseva.presentation.screens.appointment.components.LocationItem
 import com.harshsinghio.passportseva.presentation.screens.appointment.components.TimeSlotPicker
@@ -18,6 +20,7 @@ import com.harshsinghio.passportseva.presentation.screens.appointment.components
 fun AppointmentScreen(
     onNavigateBack: () -> Unit,
     onAppointmentBooked: () -> Unit,
+    navController: NavController,
     viewModel: AppointmentViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState
@@ -42,7 +45,7 @@ fun AppointmentScreen(
             Spacer(modifier = Modifier.height(4.dp))
 
             // Location Selection
-            LocationSelectionSection(viewModel)
+            LocationSelectionSection(viewModel, navController)
 
             // Date and Time Selection
             DateTimeSelectionSection(viewModel)
@@ -83,7 +86,7 @@ fun AppointmentScreen(
 }
 
 @Composable
-private fun LocationSelectionSection(viewModel: AppointmentViewModel) {
+private fun LocationSelectionSection(viewModel: AppointmentViewModel, navController: NavController) {
     val uiState by viewModel.uiState
     val locations = viewModel.availableLocations
 
@@ -111,7 +114,10 @@ private fun LocationSelectionSection(viewModel: AppointmentViewModel) {
                     LocationItem(
                         location = location,
                         isSelected = uiState.selectedLocation?.id == location.id,
-                        onClick = { viewModel.selectLocation(location) }
+                        onClick = {
+                            viewModel.selectLocation(location)
+                            navController.navigate(Screen.AppointmentDetails.route)
+                        }
                     )
                 }
             }

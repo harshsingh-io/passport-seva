@@ -18,6 +18,7 @@ sealed class Screen(val route: String) {
     object DocumentAdvisor : Screen("document_advisor")
     object FeeCalculator : Screen("fee_calculator")
     object LocateCentre : Screen("locate_centre")
+    object AppointmentDetails : Screen("appointment_details")
 
     // New screens for services
     object Annexures : Screen("annexures")
@@ -64,6 +65,7 @@ sealed class Screen(val route: String) {
                 Annexures.route -> Annexures
                 Grievance.route -> Grievance
                 FAQ.route -> FAQ
+                AppointmentDetails.route -> AppointmentDetails
                 else -> Home // Default to Home screen
             }
         }
