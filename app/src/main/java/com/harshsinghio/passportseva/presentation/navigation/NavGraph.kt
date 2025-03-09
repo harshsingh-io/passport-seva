@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.harshsinghio.passportseva.presentation.screens.appointment.AppointmentScreen
 import com.harshsinghio.passportseva.presentation.screens.appointmentdetails.AppointmentDetailsScreen
+import com.harshsinghio.passportseva.presentation.screens.feecalculator.FeeCalculatorScreen
 import com.harshsinghio.passportseva.presentation.screens.home.HomeScreen
 import com.harshsinghio.passportseva.presentation.screens.login.LoginScreen
 import com.harshsinghio.passportseva.presentation.screens.profile.ProfileScreen
@@ -134,7 +135,7 @@ fun PassportSevaNavGraph(
                     when (service.id) {
                         "appointment" -> navController.navigate(Screen.Appointment.route)
                         "document" -> { /* Navigate to document advisor */ }
-                        "fee" -> { /* Navigate to fee calculator */ }
+                        "fee" -> navController.navigate(Screen.FeeCalculator.route)
                         "locate" -> { /* Navigate to locate centre */ }
                         else -> { /* Handle other services */ }
                     }
@@ -174,13 +175,9 @@ fun PassportSevaNavGraph(
 
         // Fee Calculator screen (placeholder)
         composable(Screen.FeeCalculator.route) {
-            // Create a simple placeholder
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    text = "Fee Calculator Screen",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            FeeCalculatorScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         // Locate Centre screen (placeholder)
