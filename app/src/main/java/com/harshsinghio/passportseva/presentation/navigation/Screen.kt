@@ -25,6 +25,7 @@ sealed class Screen(val route: String) {
     object Grievance : Screen("grievance")
     object FAQ : Screen("faq")
 
+
     /**
      * Utility to create route with arguments
      *

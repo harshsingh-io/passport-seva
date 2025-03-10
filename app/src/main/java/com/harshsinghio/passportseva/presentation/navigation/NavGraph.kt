@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.harshsinghio.passportseva.presentation.screens.annexures.AnnexuresScreen
 import com.harshsinghio.passportseva.presentation.screens.appointment.AppointmentScreen
 import com.harshsinghio.passportseva.presentation.screens.appointmentdetails.AppointmentDetailsScreen
 
@@ -142,6 +143,7 @@ fun PassportSevaNavGraph(
                             "document" -> navController.navigate(Screen.DocumentAdvisor.route)
                             "fee" -> navController.navigate(Screen.FeeCalculator.route)
                             "faq" -> navController.navigate(Screen.FAQ.route)
+                            "annexures" -> navController.navigate(Screen.Annexures.route)
                             "locate" -> {
                                 /* Navigate to locate centre */
                             }
@@ -194,6 +196,10 @@ fun PassportSevaNavGraph(
 
         composable(Screen.FAQ.route) {
             FaqScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.Annexures.route) {
+            AnnexuresScreen(onNavigateBack = { navController.popBackStack() })
         }
     }
 }
