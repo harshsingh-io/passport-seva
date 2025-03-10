@@ -14,6 +14,7 @@ import com.harshsinghio.passportseva.presentation.screens.appointment.Appointmen
 import com.harshsinghio.passportseva.presentation.screens.appointmentdetails.AppointmentDetailsScreen
 
 import com.harshsinghio.passportseva.presentation.screens.documentadvisor.DocumentAdvisorScreen
+import com.harshsinghio.passportseva.presentation.screens.faq.FaqScreen
 
 import com.harshsinghio.passportseva.presentation.screens.feecalculator.FeeCalculatorScreen
 import com.harshsinghio.passportseva.presentation.screens.home.HomeScreen
@@ -140,6 +141,7 @@ fun PassportSevaNavGraph(
                             "appointment" -> navController.navigate(Screen.Appointment.route)
                             "document" -> navController.navigate(Screen.DocumentAdvisor.route)
                             "fee" -> navController.navigate(Screen.FeeCalculator.route)
+                            "faq" -> navController.navigate(Screen.FAQ.route)
                             "locate" -> {
                                 /* Navigate to locate centre */
                             }
@@ -184,8 +186,14 @@ fun PassportSevaNavGraph(
                 Text(text = "Locate Centre Screen", modifier = Modifier.align(Alignment.Center))
             }
         }
+
+
         composable(route = Screen.AppointmentDetails.route) {
             AppointmentDetailsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.FAQ.route) {
+            FaqScreen(onNavigateBack = { navController.popBackStack() })
         }
     }
 }
