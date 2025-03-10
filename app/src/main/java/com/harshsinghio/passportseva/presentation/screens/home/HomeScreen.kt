@@ -70,6 +70,9 @@ fun HomeScreen(
                 onNotificationClick = {
                     // Handle notification click in a real app
                 },
+
+                userInitial = "J",
+
                 onProfileClick = onNavigateToProfile
             )
         },

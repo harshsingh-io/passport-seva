@@ -53,8 +53,8 @@ fun ServicesScreen(
     Scaffold(
         topBar = {
             PassportSevaAppBar(
-                userInitial = "U",
-                showBackButton = true,
+                userInitial = "J",
+                showBackButton = false,
                 onBackClick = onNavigateBack
             )
         },
